@@ -85,19 +85,25 @@ function escape_once($html)
   return fix_double_escape(sanitizeInput($html, ENT_COMPAT, sfConfig::get('sf_charset')));
 }
 
-function sanitizeInput($input, $flags = ENT_QUOTES|ENT_SUBSTITUTE, $encoding = null, $doubleEncode = true) {
-    if (is_string($input)) {
-        return htmlspecialchars($input, $flags, $encoding, $doubleEncode);
-    } elseif (is_array($input) || is_object($input)) {
-        return null; // Return null for arrays and objects
-    } elseif (is_numeric($input) || is_bool($input)) {
-        return htmlspecialchars((string) $input, $flags, $encoding, $doubleEncode); // Convert numbers and booleans to strings before sanitizing
-    } elseif (is_null($input)) {
-        return '';
-    } else {
-        return $input; // Preserve other unsupported types
+function sanitizeInput($input, $flags = ENT_QUOTES|ENT_SUBSTITUTE, $encoding = null, $doubleEncode = true) 
+{
+    if (is_array($input) || is_object($input)) {
+        // Return null for arrays and objects
+        return null;
     }
+
+    if (is_numeric($input) || is_bool($input)) {
+        // Convert numbers and booleans to strings before sanitizing
+        return htmlspecialchars((string) $input, $flags, $encoding, $doubleEncode);
+    } 
+    
+    if (is_null($input)) {
+        return '';
+    }
+    
+    return htmlspecialchars($input, $flags, $encoding, $doubleEncode);
 }
+
 /**
  * Fixes double escaped strings.
  *
