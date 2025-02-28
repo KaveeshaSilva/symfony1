@@ -89,7 +89,7 @@ function sanitizeInput($input, $flags = ENT_QUOTES|ENT_SUBSTITUTE, $encoding = n
     if (is_string($input)) {
         return htmlspecialchars($input, $flags, $encoding, $doubleEncode);
     } elseif (is_array($input) || is_object($input)) {
-        return null; // Return empty string for arrays and objects
+        return null; // Return null for arrays and objects
     } elseif (is_numeric($input) || is_bool($input)) {
         return htmlspecialchars((string) $input, $flags, $encoding, $doubleEncode); // Convert numbers and booleans to strings before sanitizing
     } elseif (is_null($input)) {
